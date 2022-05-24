@@ -77,7 +77,7 @@ fs.readdir(path.join('06-build-page', '/project-dist'), (err) => {
 
 
 
-
+g
 // create folder assets
 
 fs.readdir(path.join('06-build-page', '/project-dist', '/assets'), (err) => {
