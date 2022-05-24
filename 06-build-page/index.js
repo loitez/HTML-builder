@@ -8,68 +8,69 @@ fs.readdir(path.join('06-build-page', '/project-dist'), (err) => {
             console.log(err);
         });
     }
+    fs.copyFile(path.join('06-build-page', '/template.html'), path.join('06-build-page', '/project-dist', '/template.html'), (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            fs.rename(path.join('06-build-page', '/project-dist', '/template.html'), path.join('06-build-page', '/project-dist', '/index.html'), (err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    fs.readFile(path.join('06-build-page', '/project-dist', '/index.html'), 'utf-8', (err, data) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        fs.readFile(path.join('06-build-page', '/components', '/articles.html'), 'utf-8', (err, contentArt) => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                data = data.replace('{{articles}}', contentArt);
+                                fs.writeFile(path.join('06-build-page', '/project-dist', '/index.html'), data, err => {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                                fs.readFile(path.join('06-build-page', '/components', '/footer.html'), 'utf-8', (err, contentFooter) => {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                    else {
+                                        data = data.replace('{{footer}}', contentFooter);
+                                        fs.writeFile(path.join('06-build-page', '/project-dist', '/index.html'), data, err => {
+                                            if (err) {
+                                                console.log(err);
+                                            }
+                                        });
+                                        fs.readFile(path.join('06-build-page', '/components', '/header.html'), 'utf-8', (err, contentHeader) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                                data = data.replace('{{header}}', contentHeader);
+                                                fs.writeFile(path.join('06-build-page', '/project-dist', '/index.html'), data, err => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+
+                    });
+                }
+            });
+
+        }
+
+    });
 });
 
 // replace tags
 
-fs.copyFile(path.join('06-build-page', '/template.html'), path.join('06-build-page', '/project-dist', '/template.html'), (err) => {
-    if (err) {
-        console.log(err);
-    } else {
-        fs.rename(path.join('06-build-page', '/project-dist', '/template.html'), path.join('06-build-page', '/project-dist', '/index.html'), (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                fs.readFile(path.join('06-build-page', '/project-dist', '/index.html'), 'utf-8', (err, data) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    fs.readFile(path.join('06-build-page', '/components', '/articles.html'), 'utf-8', (err, contentArt) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            data = data.replace('{{articles}}', contentArt);
-                            fs.writeFile(path.join('06-build-page', '/project-dist', '/index.html'), data, err => {
-                                if (err) {
-                                    console.log(err);
-                                }
-                            });
-                            fs.readFile(path.join('06-build-page', '/components', '/footer.html'), 'utf-8', (err, contentFooter) => {
-                                if (err) {
-                                    console.log(err);
-                                }
-                                else {
-                                    data = data.replace('{{footer}}', contentFooter);
-                                    fs.writeFile(path.join('06-build-page', '/project-dist', '/index.html'), data, err => {
-                                        if (err) {
-                                            console.log(err);
-                                        }
-                                    });
-                                    fs.readFile(path.join('06-build-page', '/components', '/header.html'), 'utf-8', (err, contentHeader) => {
-                                        if (err) {
-                                            console.log(err);
-                                        } else {
-                                            data = data.replace('{{header}}', contentHeader);
-                                            fs.writeFile(path.join('06-build-page', '/project-dist', '/index.html'), data, err => {
-                                                if (err) {
-                                                    console.log(err);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
 
-
-                });
-            }
-        });
-
-    }
-
-});
 
 
 
