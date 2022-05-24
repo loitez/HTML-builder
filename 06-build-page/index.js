@@ -19,8 +19,32 @@ fs.readdir(path.join('06-build-page', '/project-dist'), (err) => {
                     fs.readFile(path.join('06-build-page', '/project-dist', '/index.html'), 'utf-8', (err, data) => {
                         if (err) {
                             console.log(err);
+                        } else {
+                            fs.readdir(path.join('06-build-page', '/components'), {withFileTypes: true}, (err, folders) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    folders.forEach((folder) => {
+                                        let extension = path.extname(folder.name);
+                                        let fileName = path.basename(folder.name, extension);
+                                        fs.readFile(path.join('06-build-page', '/components', `/${fileName}.html`), 'utf-8', (err, content) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                                data = data.replace(`{{${fileName}}}`, content);
+                                                fs.writeFile(path.join('06-build-page', '/project-dist', '/index.html'), data, err => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    });
+                                }
+                            });
                         }
-                        fs.readFile(path.join('06-build-page', '/components', '/articles.html'), 'utf-8', (err, contentArt) => {
+                        // tags
+                        /*fs.readFile(path.join('06-build-page', '/components', '/articles.html'), 'utf-8', (err, contentArt) => {
                             if (err) {
                                 console.log(err);
                             } else {
@@ -56,7 +80,7 @@ fs.readdir(path.join('06-build-page', '/project-dist'), (err) => {
                                     }
                                 });
                             }
-                        });
+                        });*/
 
 
                     });
